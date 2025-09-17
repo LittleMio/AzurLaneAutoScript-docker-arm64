@@ -34,7 +34,7 @@ jobs:
           else
             VERSION="dev"
           fi
-          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Version = $VERSION"
 
       - name: Build and push
