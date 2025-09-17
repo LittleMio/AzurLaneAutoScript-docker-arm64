@@ -1,6 +1,6 @@
-# docker run -v ${PWD}:/app/AzurLaneAutoScript --network host --name ALAS -e TZ=Asia/Shanghai  -it littlemio/alas:latest
+# docker run -v ${PWD}/AzurLaneAutoScript:/app/AzurLaneAutoScript --network host --name ALAS -e TZ=Asia/Shanghai -d littlemio/alas:latest
 # or
-# docker run -v /path/to/dir:/app/AzurLaneAutoScript --network host --name ALAS -e TZ=Asia/Shanghai -it littlemio/alas:latest
+# docker run -v /path/to/dir:/app/AzurLaneAutoScript --network host --name ALAS -e TZ=Asia/Shanghai -d littlemio/alas:latest
 
 version: '3.7'
 

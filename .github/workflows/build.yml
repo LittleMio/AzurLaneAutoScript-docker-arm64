@@ -1,5 +1,4 @@
-name: Docker Image CI For "littlemio/alas:latest"
-
+name: Docker Image CI For "littlemio/alas"
 on:
   push:
     tags:
@@ -15,10 +14,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
@@ -26,15 +28,23 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Generate App Version
-        run: echo APP_VERSION=`git describe --tags --always` >> $GITHUB_ENV
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            VERSION=$(git describe --tags --always)
+          else
+            VERSION="dev"
+          fi
+          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version = $VERSION"
 
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: |
-            linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ttl=14d
+          platforms: linux/arm64
           push: true
-          tags: |
-            ${{ env.DOCKERHUB_REPO }}:${{ env.APP_VERSION }}
-            ${{ env.DOCKERHUB_REPO }}:latest
+          tags: ${{ env.DOCKERHUB_REPO }}:${{ env.VERSION }}${{ github.ref_type == 'tag' && format('\n{0}:latest', env.DOCKERHUB_REPO) || '' }}
+
+
