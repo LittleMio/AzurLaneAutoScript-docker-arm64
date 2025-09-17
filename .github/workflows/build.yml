@@ -45,6 +45,7 @@ jobs:
           cache-to: type=gha,mode=max,ttl=14d
           platforms: linux/arm64
           push: true
-          tags: ${{ env.DOCKERHUB_REPO }}:${{ env.VERSION }}${{ github.ref_type == 'tag' && format('\n{0}:latest', env.DOCKERHUB_REPO) || '' }}
+          tags: ${{ env.DOCKERHUB_REPO }}:${{ env.VERSION }}${{ github.ref_type == 'tag' && format(',{0}:latest', env.DOCKERHUB_REPO) || '' }}
+
 
 
