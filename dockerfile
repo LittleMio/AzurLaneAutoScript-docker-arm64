@@ -59,7 +59,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libopenblas0 \
         libopencv-core406 libopencv-imgproc406 libopencv-imgcodecs406 \
         ca-certificates openssl git \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && git config --system --add safe.directory /app/AzurLaneAutoScript
 
 COPY --from=builder ${PYROOT} ${PYROOT}
 COPY --from=builder /opt/platform-tools /opt/platform-tools
